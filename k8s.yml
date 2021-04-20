@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspnetcoreapp
+  labels:
+    app: aspnetcoreapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aspnetcoreapp
+  template:
+    metadata:
+      labels:
+        app: aspnetcoreapp
+    spec:
+      containers:
+      - name: aspnetcoreapp
+        image: rondweb/dotnetcore:aspnetapp
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: aspnetcoreapp-service
+spec:
+ type: LoadBalancer
+ ports:
+ - port: 80
+ selector:
+   app: aspnetcoreapp
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: aspnetcoreapp-ingress
+  labels:
+    app: aspnetcoreapp-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: aspnetcoreapp-service
+          servicePort: 80          
