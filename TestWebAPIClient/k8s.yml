@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dotnetcore
+  namespace: dotnetcore
+  annotations:
+    kuma.io/sidecar-injection: enabled
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapiclientapp
+  namespace: dotnetcore
+  labels:
+    app: webapiclientapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapiclientapp
+  template:
+    metadata:
+      labels:
+        app: webapiclientapp
+    spec:
+      containers:
+      - name: webapiclientapp
+        image: rondweb/dotnetcore:webclientapi
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapiclientapp-service
+  namespace: dotnetcore
+spec:
+ type: LoadBalancer
+ ports:
+ - port: 80
+ selector:
+   app: webapiclientapp
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: webapiclientapp-ingress
+  namespace: dotnetcore
+  labels:
+    app: webapiclientapp-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /client
+        backend:
+          serviceName: webapiclientapp-service
+          servicePort: 80          
