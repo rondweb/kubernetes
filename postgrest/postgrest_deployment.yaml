@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgrest-statefulset
+  labels:
+    app: postgrest
+spec:
+  serviceName: "postgrest"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgrest
+  template:
+    metadata:
+      labels:
+        app: postgrest
+    spec:
+      containers:
+      - name: postgrest
+        image: postgrest/postgrest
+        env:
+          - name: PGRST_DB_URI
+            valueFrom:
+              secretKeyRef:
+                name: postgresconf
+                key: PGRST_DB_URI
+          - name: PGRST_JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: postgresconf
+                key: PGRST_JWT_SECRET
+          - name: PGRST_DB_ANON_ROLE
+            valueFrom:
+              secretKeyRef:
+                name: postgresconf
+                key: PGRST_DB_ANON_ROLE
+          - name: PGRST_DB_SCHEMA
+            valueFrom:
+              secretKeyRef:
+                name: postgresconf
+                key: PGRST_DB_SCHEMA
+        ports:
+        - containerPort: 3000
+          name: postgrestdb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgrest-service
+  labels:
+    app: postgrest
+spec:
+  ports:
+  - port: 3000
+    name: postgrest
+  type: NodePort 
+  selector:
+    app: postgrest
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres-svc
+spec:
+  clusterIP: None
+  ports:
+  - port: 5432
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: postgres-svc
+subsets:
+  - addresses:
+        - ip: 192.168.0.39
+    ports:
+      - port: 5432
+        name: postgres-svc
