@@ -51,11 +51,27 @@ metadata:
     app: postgrest
 spec:
   ports:
-  - port: 3000
-    name: postgrest
-  type: NodePort 
+  - name: postgrest
+    port: 3000    
+  type: NodePort   
   selector:
     app: postgrest
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgrest-svc
+  labels:
+    app: postgrest
+spec:
+  ports:
+  - name: postgrest
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: postgrest
+  type: ClusterIP
 
 ---
 kind: Service
