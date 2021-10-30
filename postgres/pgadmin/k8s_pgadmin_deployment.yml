@@ -22,6 +22,7 @@ spec:
   storageClassName: pgadmin-standard
   capacity:
     storage: 3Gi
+  persistentVolumeReclaimPolicy: Retain
   accessModes:
     - ReadWriteMany
   hostPath:
@@ -57,7 +58,7 @@ data:
            "Group": "Servers",
            "Port": 31518,
            "Username": "amazinguser",
-           "Host": "postgres-service",
+           "Host": "",
            "SSLMode": "prefer",
            "MaintenanceDB": "awesomedb"
          }
