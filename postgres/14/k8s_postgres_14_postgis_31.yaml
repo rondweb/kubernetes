@@ -1,0 +1,114 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  namespace: kube-system
+  name: standard
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  labels:
+    addonmanager.kubernetes.io/mode: EnsureExists
+
+provisioner: k8s.io/minikube-hostpath
+
+---
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv
+  labels:
+    app: postgres
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 5Gi
+  persistentVolumeReclaimPolicy: Recycle
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/ronaldo/Documents/projects/data"
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: standard
+  capacity:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-configuration
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: perfectpassword
+  PGDATA: /var/lib/postgresql/data/pgdata
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-statefulset
+  labels:
+    app: postgres
+spec:
+  serviceName: "postgres"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: rondweb/postgis:pg14_pgis31
+        imagePullPolicy: Always
+        # command: ["/bin/sh","-c"]
+        # args: ["sleep 99d;"]
+        envFrom:
+        - configMapRef:
+            name: postgres-configuration
+        ports:
+        - containerPort: 5432
+          name: postgresdb
+        volumeMounts:
+        - name: pv-data
+          mountPath: /var/lib/postgresql/data/pgdata
+      volumes:
+      - name: pv-data
+        persistentVolumeClaim:
+          claimName: postgres-pv-claim
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  labels:
+    app: postgres
+spec:
+  ports:
+  - port: 5432
+    name: postgres
+  type: NodePort 
+  selector:
+    app: postgres

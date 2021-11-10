@@ -1,0 +1,39 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: service-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services","pods", "pods/exec"]
+  verbs: ["get", "watch", "list","create", "update", "patch", "delete"]
+
+# ---
+# kind: RoleBinding
+# apiVersion: rbac.authorization.k8s.io/v1
+# metadata:
+#   name: rolebinding-rlb
+#   namespace: default
+# subjects:
+# - kind: ServiceAccount
+#   name: default-sa
+#   namespace: default
+# roleRef:
+#   kind: Role
+#   name: role-rl
+#   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: fabric8-rbac
+subjects:
+  - kind: ServiceAccount
+    # Reference to upper's `metadata.name`
+    name: default
+    # Reference to upper's `metadata.namespace`
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: service-reader
+  apiGroup: rbac.authorization.k8s.io
