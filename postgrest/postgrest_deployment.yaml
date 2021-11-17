@@ -73,23 +73,23 @@ spec:
     app: postgrest
   type: ClusterIP
 
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: postgres-svc
-spec:
-  clusterIP: None
-  ports:
-  - port: 5432
----
-kind: Endpoints
-apiVersion: v1
-metadata:
-  name: postgres-svc
-subsets:
-  - addresses:
-        - ip: 192.168.0.39
-    ports:
-      - port: 5432
-        name: postgres-svc
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: postgres-svc
+# spec:
+#   clusterIP: None
+#   ports:
+#   - port: 5432
+# ---
+# kind: Endpoints
+# apiVersion: v1
+# metadata:
+#   name: postgres-svc
+# subsets:
+#   - addresses:
+#         - ip: 192.168.0.39
+#     ports:
+#       - port: 5432
+#         name: postgres-svc
