@@ -1,5 +1,6 @@
 kind: StorageClass
-apiVersion: storage.k8s.io/v1
+#apiVersion: storage.k8s.io/v1 #minikube
+apiVersion: storage.k8s.io/v1 #microk8s
 metadata:
   namespace: kube-system
   name: standard
@@ -8,7 +9,8 @@ metadata:
   labels:
     addonmanager.kubernetes.io/mode: EnsureExists
 
-provisioner: k8s.io/minikube-hostpath
+#provisioner: k8s.io/minikube-hostpath minikube
+provisioner: microk8s-hostpath #microk8s
 
 ---
 
@@ -27,8 +29,8 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "G:/leaftix/bd"
-
+    #path: "G:/leaftix/bd"
+    path: "/g/leaftix/bd"
 ---
 
 kind: PersistentVolumeClaim
