@@ -27,7 +27,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "G:\leaftix\bd"
+    path: "G:\\leaftix\\bd"
 
 ---
 
