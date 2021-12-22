@@ -26,7 +26,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/home/ronaldo/Documents/projects/data"
+    path: "G:/leaftix/bd"
 
 ---
 kind: PersistentVolumeClaim
