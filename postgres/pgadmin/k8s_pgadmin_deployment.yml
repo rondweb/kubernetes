@@ -28,7 +28,7 @@ spec:
   storageClassName: pgadmin-standard
   capacity:
     storage: 3Gi
-  persistentVolumeReclaimPolicy: Retain
+  persistentVolumeReclaimPolicy: Recycle
   accessModes:
     - ReadWriteMany
   hostPath:
