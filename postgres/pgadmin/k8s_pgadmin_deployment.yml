@@ -13,10 +13,6 @@ metadata:
 provisioner: microk8s-hostpath #microk8s
 
 ---
-# access mode:
-# - ReadWriteMany (RW from multi nodes)
-# - ReadWriteOnce (RW from a node)
-# - ReadOnlyMany (R from multi nodes)
 kind: PersistentVolume
 apiVersion: v1
 metadata:
@@ -30,7 +26,7 @@ spec:
     storage: 3Gi
   persistentVolumeReclaimPolicy: Recycle
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: "/g/leaftix/bd"
 
