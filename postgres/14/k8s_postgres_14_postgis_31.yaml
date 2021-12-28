@@ -52,7 +52,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-cfgmap
+  name: postgres-cfg
   labels:
     app: postgres
 data:
