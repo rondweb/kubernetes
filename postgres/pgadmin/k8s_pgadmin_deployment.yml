@@ -2,8 +2,8 @@ kind: StorageClass
 #apiVersion: storage.k8s.io/v1 #minikube
 apiVersion: storage.k8s.io/v1 #microk8s
 metadata:
-  namespace: kube-system
-  name: pgadmin-standard
+  namespace: leaftix
+  name: pgadmin-std
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
   labels:
@@ -21,7 +21,7 @@ metadata:
     app: pgadmin
     type: local
 spec:
-  storageClassName: pgadmin-standard
+  storageClassName: pgadmin-std
   capacity:
     storage: 3Gi
   persistentVolumeReclaimPolicy: Recycle
@@ -38,7 +38,7 @@ metadata:
   labels:
     app: pgadmin
 spec:
-  storageClassName: pgadmin-standard
+  storageClassName: pgadmin-std
   capacity:
   accessModes:
     - ReadWriteOnce
@@ -50,7 +50,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
- name: pgadmin-config
+ name: pgadmin-cfg
 data:
  servers.json: |
    {
@@ -71,7 +71,7 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
- name: pgadmin-service
+ name: pgadmin-svc
 spec:
  ports:
  - protocol: TCP
@@ -85,9 +85,9 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
- name: pgadmin
+ name: pgadmin-stf
 spec:
- serviceName: pgadmin-service
+ serviceName: pgadmin-svc
  podManagementPolicy: Parallel
  replicas: 1
  updateStrategy:
@@ -118,7 +118,7 @@ spec:
            containerPort: 80
            protocol: TCP
          volumeMounts:
-         - name: pgadmin-config
+         - name: pgadmin-cfg
            mountPath: /pgadmin4/servers.json
            subPath: servers.json
            readOnly: true
@@ -128,6 +128,6 @@ spec:
      - name: pgadmin-pv
        persistentVolumeClaim:
          claimName: pgadmin-pv-claim
-     - name: pgadmin-config
+     - name: pgadmin-cfg
        configMap:
-         name: pgadmin-config
+         name: pgadmin-cfg
