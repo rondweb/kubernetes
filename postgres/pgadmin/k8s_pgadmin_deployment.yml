@@ -23,7 +23,7 @@ metadata:
 spec:
   storageClassName: pgadmin-std
   capacity:
-    storage: 3Gi
+    storage: 2Gi
   persistentVolumeReclaimPolicy: Recycle
   accessModes:
     - ReadWriteOnce
