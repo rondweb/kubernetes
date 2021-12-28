@@ -2,8 +2,8 @@ kind: StorageClass
 #apiVersion: storage.k8s.io/v1 #minikube
 apiVersion: storage.k8s.io/v1 #microk8s
 metadata:
-  namespace: kube-system
-  name: standard
+  namespace: leaftix
+  name: postgres-std
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
   labels:
@@ -22,7 +22,7 @@ metadata:
     app: postgres
     type: local
 spec:
-  storageClassName: standard
+  storageClassName: postgres-std
   capacity:
     storage: 5Gi
   persistentVolumeReclaimPolicy: Recycle
@@ -40,7 +40,7 @@ metadata:
   labels:
     app: postgres
 spec:
-  storageClassName: standard
+  storageClassName: postgres-std
   capacity:
   accessModes:
     - ReadWriteOnce
@@ -52,7 +52,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-configuration
+  name: postgres-cfgmap
   labels:
     app: postgres
 data:
@@ -66,7 +66,7 @@ data:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres-statefulset
+  name: postgres-stf
   labels:
     app: postgres
 spec:
@@ -88,7 +88,7 @@ spec:
         # args: ["sleep 99d;"]
         envFrom:
         - configMapRef:
-            name: postgres-configuration
+            name: postgres-cfg
         ports:
         - containerPort: 5432
           name: postgresdb
@@ -104,7 +104,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres-service
+  name: postgres-svc
   labels:
     app: postgres
 spec:
