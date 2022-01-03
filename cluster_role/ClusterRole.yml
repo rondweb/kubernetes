@@ -1,3 +1,4 @@
+# kubectl create clusterrole service-reader -n kube-system --verb=get,list,watch,create,update,patch,delete --resource=services,pods,pods/exec
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
