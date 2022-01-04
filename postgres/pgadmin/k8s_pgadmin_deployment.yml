@@ -23,7 +23,7 @@ metadata:
 spec:
   storageClassName: pgadmin-std
   capacity:
-    storage: 2Gi
+    storage: 1Gi
   persistentVolumeReclaimPolicy: Recycle
   accessModes:
     - ReadWriteOnce
@@ -44,7 +44,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
 
 ---
 apiVersion: v1
@@ -68,20 +68,6 @@ data:
    }
 
 ---
-apiVersion: v1
-kind: Service
-metadata:
- name: pgadmin-svc
-spec:
- ports:
- - protocol: TCP
-   port: 80
-   targetPort: http
- selector:
-   app: pgadmin
- type: NodePort
-
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -89,7 +75,7 @@ metadata:
 spec:
  serviceName: pgadmin-svc
  podManagementPolicy: Parallel
- replicas: 1
+ replicas: 3
  updateStrategy:
    type: RollingUpdate
  selector:
@@ -131,3 +117,20 @@ spec:
      - name: pgadmin-cfg
        configMap:
          name: pgadmin-cfg
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: pgadmin-svc
+spec:
+ ports:
+ - protocol: http
+   port: 80
+   targetPort: 80
+ selector:
+   app: pgadmin
+ status:
+  type: LoadBalancer
+   loadBalancer:
+    ingress:
+    - ip: 192.168.0.10
