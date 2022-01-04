@@ -123,14 +123,14 @@ kind: Service
 metadata:
  name: pgadmin-svc
 spec:
+ type: LoadBalancer
  ports:
- - protocol: http
+ - protocol: TCP
    port: 80
    targetPort: 80
  selector:
    app: pgadmin
- status:
-  type: LoadBalancer
-   loadBalancer:
+status:
+  loadBalancer:
     ingress:
-    - ip: 192.168.0.10
+    - ip: 192.0.2.127
