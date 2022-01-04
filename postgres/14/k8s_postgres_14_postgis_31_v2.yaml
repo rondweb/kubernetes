@@ -24,7 +24,7 @@ metadata:
 spec:
   storageClassName: postgres-std
   capacity:
-    storage: 1Gi
+    storage: 3Gi
   persistentVolumeReclaimPolicy: Recycle
   accessModes:
     - ReadWriteOnce
@@ -46,7 +46,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 3Gi
 
 ---
 apiVersion: v1
@@ -105,11 +105,10 @@ kind: Service
 metadata:
   name: postgres-svc-ldb
 spec:
-  type: LoadBalancer
+  #type: ClusterIP
   selector:
     app: postgres
   ports:
     - protocol: TCP
-      port: 5432    
-      targetPort: 15432          
-      nodePort: 30000
+      port: 15432    
+      targetPort: 5432
