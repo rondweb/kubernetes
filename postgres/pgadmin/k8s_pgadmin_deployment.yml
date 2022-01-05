@@ -124,7 +124,7 @@ metadata:
 spec:
  type: LoadBalancer
  ports:
- - protocol: http
+ - protocol: TCP
    port: 80
    name: pgadmin-stf
    targetPort: 80
