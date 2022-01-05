@@ -80,7 +80,7 @@ spec:
    type: RollingUpdate
  selector:
    matchLabels:
-     app: pgadmin-svc
+     app: pgadmin-stf
  template:
    metadata:
      labels:
@@ -120,14 +120,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
- name: pgadmin-svc
+ name: pgadmin-svc-ldb
 spec:
  type: LoadBalancer
  ports:
  - port: 80
    name: pgadmin-stf
  selector:
-   app: pgadmin-svc
+   app: pgadmin-stf
 #status:
 #  loadBalancer:
 #    ingress:
