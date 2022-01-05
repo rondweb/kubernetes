@@ -80,6 +80,20 @@ spec:
  selector:
    app: pgadmin
  type: ClusterIP
+ 
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: pgadmin-svc-open
+spec:
+ ports:
+ - protocol: TCP
+   port: 80
+   targetPort: http
+ selector:
+   app: pgadmin
+ type: NodePort
 
 ---
 apiVersion: apps/v1
