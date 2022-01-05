@@ -71,7 +71,7 @@ data:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
- name: pgadmin-stf
+ name: web
 spec:
  serviceName: "pgadmin-svc"
  podManagementPolicy: Parallel
@@ -80,15 +80,15 @@ spec:
    type: RollingUpdate
  selector:
    matchLabels:
-     app: pgadmin-stf
+     app: pgadmin
  template:
    metadata:
      labels:
-       app: pgadmin-stf
+       app: pgadmin
    spec:
      terminationGracePeriodSeconds: 10
      containers:
-       - name: pgadmin-stf
+       - name: pgadmin
          image: dpage/pgadmin4:5.4
          imagePullPolicy: Always
          env:
@@ -100,10 +100,10 @@ spec:
                name: pgadmin
                key: PGADMIN_PASSWORD
          ports:
-         - name: pgadmin-stf
+         - name: web
            containerPort: 80
          volumeMounts:
-         - name: pgadmin-cfg
+         - name: www
            mountPath: /pgadmin4/servers.json
            subPath: servers.json
            readOnly: true
@@ -113,24 +113,21 @@ spec:
      - name: pgadmin-pv
        persistentVolumeClaim:
          claimName: pgadmin-pv-claim
-     - name: pgadmin-cfg
+     - name: www
        configMap:
          name: pgadmin-cfg
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
- name: pgadmin-svc-ldb
+  name: pgadmin
+  labels:
+    app: pgadmin
 spec:
- type: LoadBalancer
- ports:
- - protocol: TCP
-   port: 80
-   name: pgadmin-stf
-   targetPort: 80
- selector:
-   app: pgadmin-stf
-#status:
-#  loadBalancer:
-#    ingress:
-#    - ip: 192.0.2.127
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: pgadmin
