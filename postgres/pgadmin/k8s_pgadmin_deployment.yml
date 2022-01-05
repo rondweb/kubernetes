@@ -23,7 +23,7 @@ metadata:
 spec:
   storageClassName: pgadmin-std
   capacity:
-    storage: 2Gi
+    storage: 1Gi
   persistentVolumeReclaimPolicy: Recycle
   accessModes:
     - ReadWriteOnce
@@ -44,7 +44,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
 
 ---
 apiVersion: v1
@@ -89,7 +89,7 @@ metadata:
 spec:
  serviceName: pgadmin-svc
  podManagementPolicy: Parallel
- replicas: 1
+ replicas: 2
  updateStrategy:
    type: RollingUpdate
  selector:
