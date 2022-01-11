@@ -12,7 +12,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: admn-ns-rbac
+  name: adm-ns-rbac
 subjects:
   - kind: ServiceAccount
     # Reference to upper's `metadata.name`
@@ -21,7 +21,7 @@ subjects:
     namespace: leaftix
 roleRef:
   kind: ClusterRole
-  name: adm-leaftix
+  name: admin-ns
   apiGroup: rbac.authorization.k8s.io
   
 ---
