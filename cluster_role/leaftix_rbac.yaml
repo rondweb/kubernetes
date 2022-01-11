@@ -30,4 +30,4 @@ kind: ServiceAccount
 metadata:
   name: adm-leaftix
   namespace: leaftix
-automountServiceAccountToken: false
+automountServiceAccountToken: true
