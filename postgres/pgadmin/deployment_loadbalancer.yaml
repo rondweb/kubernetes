@@ -119,8 +119,7 @@ spec:
            containerPort: 80
          volumePermissions:
          ## If true, enables an InitContainer to set permissions on /var/lib/pgadmin.
-              ## 
-          enabled: true
+         - enable: true
          volumeMounts:
          - name: pgadmin-cfg
            mountPath: /pgadmin4/servers.json
