@@ -117,6 +117,10 @@ spec:
          ports:
          - name: web
            containerPort: 80
+         volumePermissions:
+         ## If true, enables an InitContainer to set permissions on /var/lib/pgadmin.
+              ## 
+          enabled: true
          volumeMounts:
          - name: pgadmin-cfg
            mountPath: /pgadmin4/servers.json
@@ -124,6 +128,8 @@ spec:
            readOnly: true
          - name: pgadmin-pv
            mountPath: /var/lib/pgadmin
+           readOnly: false
+     
      volumes:
      - name: pgadmin-pv
        persistentVolumeClaim:
