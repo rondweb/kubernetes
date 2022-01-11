@@ -9,21 +9,31 @@ rules:
   resources: ["services","pods", "pods/exec"]
   verbs: ["get", "watch", "list","create", "update", "patch", "delete"]
 
-# ---
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: ClusterRoleBinding
-# metadata:
-#   name: adm-ns-rbac
-# subjects:
-#   - kind: ServiceAccount
-#     # Reference to upper's `metadata.name`
-#     name: adm-leaftix
-#     # Reference to upper's `metadata.namespace`
-#     namespace: leaftix
-# roleRef:
-#   kind: ClusterRole
-#   name: admin-ns-leaftix
-#   apiGroup: rbac.authorization.k8s.io
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: adm-ns-rbac-leaftix
+subjects:
+  - kind: ServiceAccount
+    # Reference to upper's `metadata.name`
+    name: adm-leaftix
+    # Reference to upper's `metadata.namespace`
+    # namespace: default
+    namespace: leaftix
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io
+  
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: adm-leaftix
+  # namespace: leaftix
+  namespace: leaftix
+automountServiceAccountToken: true
 
 #default scheme
 --- 
