@@ -21,7 +21,7 @@ subjects:
     namespace: leaftix
 roleRef:
   kind: ClusterRole
-  name: adm-leaftixr
+  name: adm-leaftix
   apiGroup: rbac.authorization.k8s.io
   
 ---
