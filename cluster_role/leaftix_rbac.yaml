@@ -1,8 +1,7 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  #namespace: leaftix
-  namespace: default
+  namespace: leaftix
   name: admin-ns-leaftix
 rules:
 - apiGroups: [""] # "" indicates the core API group
@@ -31,11 +30,21 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: adm-leaftix
-  # namespace: leaftix
   namespace: leaftix
 automountServiceAccountToken: true
 
 #default scheme
+--- 
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: admin-ns-leaftix
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services","pods", "pods/exec"]
+  verbs: ["get", "watch", "list","create", "update", "patch", "delete"]
+
 --- 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -58,6 +67,5 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: adm-leaftix
-  # namespace: leaftix
   namespace: default
 automountServiceAccountToken: true
