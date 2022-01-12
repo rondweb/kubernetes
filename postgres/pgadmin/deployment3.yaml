@@ -44,7 +44,6 @@ spec:
       storage: 1Gi
 
 ---
-# pgadmin pod
 apiVersion: v1
 kind: Pod
 metadata:
@@ -63,10 +62,7 @@ spec:
     - name: PGADMIN_DEFAULT_EMAIL
       value: rondweb@gmail.com
     - name: PGADMIN_DEFAULT_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: pgadmin
-          key: PGADMIN_PASSWORD
+      value: PASSWORD
     ports:
     - name: web
       containerPort: 80
@@ -78,16 +74,16 @@ volumes:
   persistentVolumeClaim:
     claimName: pgadmin-pv-claim
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: svc-pgadmin
-  namespace: leaftix
-spec:
-  type: NodePort
-  ports:
-  - port: 5002
-    targetPort: 80
-  selector:
-      app: web
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: svc-pgadmin
+#   namespace: leaftix
+# spec:
+#   type: NodePort
+#   ports:
+#   - port: 5002
+#     targetPort: 80
+#   selector:
+#       app: web
