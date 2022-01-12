@@ -71,6 +71,20 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
+ name: pgadmin-ldb-svc
+spec:
+ ports:
+ - protocol: TCP
+   port: 80
+   targetPort: http
+ selector:
+   app: pgadmin-svc
+ type: ClusterIP
+ 
+---
+apiVersion: v1
+kind: Service
+metadata:
  name: pgadmin-ldb
  labels:
   app: pgadmin-ldb
