@@ -67,10 +67,10 @@ metadata:
     volumeMounts:
     - name: pgadmin-pv
       mountPath: /var/lib/pgadmin           
-volumes:
-- name: pgadmin-pv
-  persistentVolumeClaim:
-    claimName: pgadmin-pv-claim
+ volumes:
+  - name: pgadmin-pv
+    persistentVolumeClaim:
+      claimName: pgadmin-pv-claim
 
 # ---
 # apiVersion: v1
