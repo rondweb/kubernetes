@@ -47,13 +47,13 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
- name: web-deployment
+ name: web
  namespace: leaftix
- labels: web
-   app: web
-spec:
+ labels:
+  app: web
+ spec:
   containers:
-  - name: pgadmin-svc
+  - name: web
     image: dpage/pgadmin4:5.4
     imagePullPolicy: Always
     env:
