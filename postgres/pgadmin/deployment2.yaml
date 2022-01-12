@@ -82,9 +82,10 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: web
+ name: web-deployment
+ labels: web
+   app: web
 spec:
- serviceName: "pgadmin-svc"
  replicas: 3
  selector:
    matchLabels:
