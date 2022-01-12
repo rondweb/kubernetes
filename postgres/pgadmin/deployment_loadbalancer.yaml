@@ -104,7 +104,7 @@ metadata:
 spec:
  serviceName: "pgadmin-svc"
  podManagementPolicy: Parallel
- replicas: 2
+ replicas: 1
  updateStrategy:
    type: RollingUpdate
  selector:
@@ -115,12 +115,13 @@ spec:
      labels:
        app: pgadmin-svc
    spec:
+     securityContext:
+       runAsUser: 1000
+       runAsGroup: 1000           
      terminationGracePeriodSeconds: 10
      containers:
        - name: pgadmin-svc
          image: dpage/pgadmin4:5.4
-         securityContext:
-           runAsGroup: 1000           
          imagePullPolicy: Always
          env:
          - name: PGADMIN_DEFAULT_EMAIL
