@@ -12,7 +12,6 @@ spec:
       image: dpage/pgadmin4:5.4
       imagePullPolicy: Always
       securityContext:
-        runAsUser: 1000
         runAsGroup: 1000
       imagePullPolicy: IfNotPresent
       env:
