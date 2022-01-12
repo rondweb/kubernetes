@@ -55,14 +55,12 @@ spec:
   containers:
   - name: pgadmin-svc
     image: dpage/pgadmin4:5.4
-    securityContext:
-      runAsGroup: 1000           
     imagePullPolicy: Always
     env:
     - name: PGADMIN_DEFAULT_EMAIL
       value: rondweb@gmail.com
     - name: PGADMIN_DEFAULT_PASSWORD
-      value: PASSWORD
+      value: "123456"
     ports:
     - name: web
       containerPort: 80
