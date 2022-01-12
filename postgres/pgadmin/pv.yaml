@@ -1,0 +1,45 @@
+kind: StorageClass
+#apiVersion: storage.k8s.io/v1 #minikube
+apiVersion: storage.k8s.io/v1 #microk8s
+metadata:
+  name: pgadmin-std
+  namespace: leaftix
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  labels:
+    addonmanager.kubernetes.io/mode: EnsureExists
+provisioner: microk8s-hostpath #microk8s
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pgadmin-pv
+  labels:
+    app: pgadmin
+    type: local
+spec:
+  storageClassName: pgadmin-std
+  capacity:
+    storage: 1Gi
+  persistentVolumeReclaimPolicy: Recycle
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/g/leaftix/bd"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pgadmin-pv-claim
+  labels:
+    app: pgadmin
+spec:
+  storageClassName: pgadmin-std
+  capacity:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
