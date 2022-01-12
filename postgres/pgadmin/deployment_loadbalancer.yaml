@@ -105,6 +105,10 @@ spec:
      containers:
        - name: pgadmin-svc
          image: dpage/pgadmin4:5.4
+         securityContext:
+           runAsUser: 1000
+           runAsGroup: 1000
+           fsGroupChangePolicy: "OnRootMismatch"
          imagePullPolicy: Always
          env:
          - name: PGADMIN_DEFAULT_EMAIL
