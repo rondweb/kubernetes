@@ -1,14 +1,26 @@
---- 
+# kubectl create clusterrole service-reader -n kube-system --verb=get,list,watch,create,update,patch,delete --resource=services,pods,pods/exec
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: leaftix
+  name: adm-leaftix-clr
+rules:
+- apiGroups: ['*']
+  resources: ['*']
+  verbs: ['*']
+
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: adm-leaftix
+  name: adm-leaftix-rb
 subjects:
   - kind: ServiceAccount
-    name: default
+    # Reference to upper's `metadata.name`
+    name: adm-leaftix
+    # Reference to upper's `metadata.namespace`
     namespace: leaftix
 roleRef:
   kind: ClusterRole
-  name: cluster-admin
+  name: adm-leaftix-clr
   apiGroup: rbac.authorization.k8s.io
-  
