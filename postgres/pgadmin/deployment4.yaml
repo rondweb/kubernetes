@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+ name: web
+ namespace: leaftix
+ labels:
+  app: web
+spec:
+  containers:
+    - name: web
+      image: dpage/pgadmin4:5.4
+      imagePullPolicy: Always
+      env:
+      - name: PGADMIN_DEFAULT_EMAIL
+        value: rondweb@gmail.com
+      - name: PGADMIN_DEFAULT_PASSWORD
+        value: "123456"
+      ports:
+      - name: web
+        containerPort: 80
+      volumeMounts:
+        - name: pgadmin-pv
+          mountPath: /var/lib/pgadmin           
+volumes:
+ - name: pgadmin-pv
+   persistentVolumeClaim:
+    claimName: pgadmin-pv-claim
