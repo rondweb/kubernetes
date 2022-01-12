@@ -10,7 +10,9 @@ spec:
   containers:
     - name: web
       image: dpage/pgadmin4:5.4
-      imagePullPolicy: Always
+      securityContext:
+        runAsGroup: 1000
+      imagePullPolicy: IfNotPresent
       env:
       - name: PGADMIN_DEFAULT_EMAIL
         value: rondweb@gmail.com
