@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: minimal-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /pgadmin
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
