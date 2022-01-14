@@ -29,7 +29,6 @@ spec:
           ports:
             - name: http
               containerPort: 80
-              targetPort: 80
               protocol: TCP
           env:
             - name: PGADMIN_DEFAULT_PASSWORD
