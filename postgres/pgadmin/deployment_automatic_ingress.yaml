@@ -9,10 +9,12 @@ metadata:
     #nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/app-root: /pgadmin
 spec:
+  ingressClassName: nginx
   rules:
-  - http:
+  - host: leaftix.pgadmin.com
+    http: 
       paths:
-      - path: /pgadmin
+      - path: /
         pathType: Prefix
         backend:
           service:
