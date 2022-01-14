@@ -27,8 +27,9 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           ports:
-            - name: web
+            - name: http
               containerPort: 80
+              targetPort: 80
               protocol: TCP
           env:
             - name: PGADMIN_DEFAULT_PASSWORD
@@ -42,15 +43,15 @@ spec:
           securityContext:
             readOnlyRootFilesystem: false
             runAsGroup: 1000
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - web
-                topologyKey: kubernetes.io/hostname
+      # affinity:
+      #   podAntiAffinity:
+      #     preferredDuringSchedulingIgnoredDuringExecution:
+      #       - weight: 100
+      #         podAffinityTerm:
+      #           labelSelector:
+      #             matchExpressions:
+      #               - key: app
+      #                 operator: In
+      #                 values:
+      #                   - pgadmin
+      #           topologyKey: kubernetes.io/hostname
