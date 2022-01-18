@@ -1,0 +1,93 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1 #microk8s
+metadata:
+  namespace: leaftix
+  name: jenkins-std
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  labels:
+    addonmanager.kubernetes.io/mode: EnsureExists
+
+provisioner: microk8s-hostpath #microk8s
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: jenkins-pv
+  labels:
+    app: jenkins
+    type: local
+spec:
+  storageClassName: jenkins-std
+  capacity:
+    storage: 10Gi
+  persistentVolumeReclaimPolicy: Recycle
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/g/leaftix/bd"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jenkins-pv-claim
+  labels:
+    app: jenkins
+spec:
+  storageClassName: jenkins-std
+  capacity:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        #image: jenkins/jenkins:lts-jdk11
+        image: jenkins/jenkins:latest
+        ports:
+        - containerPort: 8080
+        - containerPort: 50000
+        volumeMounts:
+        - name: jenkins-home
+          mountPath: /var/jenkins_home
+      volumes:
+      - name: jenkins-home
+        persistentVolumeClaim:
+          claimName: jenkins-pv-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-svc
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+  - port: 50000
+    targetPort: 50000
+  selector:
+    app: jenkins
+
+
+# aftter the installation you have to find the token getting the log of jenkin's pod ex: kubectl logs pod/jenkins...
