@@ -96,7 +96,7 @@ spec:
             name: pgadmin-cfg
       containers:
         - name: pgadmin
-          image: 'dpage/pgadmin4:5.4'
+          image: 'dpage/pgadmin4:latest' #5.4 older
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           ports:
