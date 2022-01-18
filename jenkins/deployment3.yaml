@@ -7,8 +7,7 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "true"
   labels:
     addonmanager.kubernetes.io/mode: EnsureExists
-
-provisioner: k8s.io/minikube-hostpath
+provisioner: microk8s-hostpath #microk8s
 
 ---
 kind: PersistentVolume
