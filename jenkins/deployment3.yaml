@@ -21,7 +21,7 @@ spec:
   storageClassName: jenkins-std
   capacity:
     storage: 10Gi
-  persistentVolumeReclaimPolicy: Retain
+  persistentVolumeReclaimPolicy: Recycle
   accessModes:
     - ReadWriteMany
   hostPath:
