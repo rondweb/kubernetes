@@ -74,20 +74,20 @@ spec:
         persistentVolumeClaim:
           claimName: jenkins-pv-claim
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: jenkins-svc
-spec:
-  type: NodePort
-  ports:
-  - port: 8080
-    targetPort: 8080
-  - port: 50000
-    targetPort: 50000
-  selector:
-    app: jenkins
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: jenkins-svc
+# spec:
+#   type: NodePort
+#   ports:
+#   - port: 8080
+#     targetPort: 8080
+#   - port: 50000
+#     targetPort: 50000
+#   selector:
+#     app: jenkins
 
 
 # aftter the installation you have to find the token getting the log of jenkin's pod ex: kubectl logs pod/jenkins...
