@@ -138,6 +138,7 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
           service:
             name: airflow-webserver
@@ -147,6 +148,7 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix      
         backend:
           service:
             name: airflow-flower
