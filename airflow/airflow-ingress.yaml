@@ -26,7 +26,7 @@ metadata:
   name: pod-reader
 rules:
   - apiGroups: [""] # "" indicates the core API group
-    resources: ["secrets", "configmaps"]
+    resources: ["secrets", "configmaps", "ingressclasses"]
     verbs: ["get"]
 
 ---
