@@ -139,12 +139,16 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: airflow-webserver
-          servicePort: 80
+          service:
+            name: airflow-webserver
+            port:
+              number: 80        
   - host: my.flower
     http:
       paths:
       - path: /
         backend:
-          serviceName: airflow-flower
-          servicePort: 80
+          service:
+            name: airflow-flower
+            port:
+              number: 80        
