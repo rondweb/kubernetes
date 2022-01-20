@@ -151,11 +151,10 @@ spec:
   #   - 192.168.64.5
 
 ---
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: airflow-ingress
+  name: nginx-ingress
   namespace: airflow
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
