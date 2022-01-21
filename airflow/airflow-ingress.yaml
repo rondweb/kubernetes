@@ -12,35 +12,6 @@ data:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx-ingress
-  namespace: airflow
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  rules:
-  - host: my.airflow
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          name: airflow-webserver
-          port:
-            number: 80          
-  - host: my.flower
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          name: airflow-flower
-          port:
-            number: 80          
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
   name: minimal-ingres-airflow
   namespace: airflow
   annotations:
@@ -64,3 +35,32 @@ spec:
             name: airflow-webserver
             port:
               number: 80  
+
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: nginx-ingress
+#   namespace: airflow
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+# spec:
+#   rules:
+#   - host: my.airflow
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           name: airflow-webserver
+#           port:
+#             number: 80          
+#   - host: my.flower
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           name: airflow-flower
+#           port:
+#             number: 80          
