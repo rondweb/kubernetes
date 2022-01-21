@@ -29,16 +29,16 @@ spec:
             port:
               number: 80        
 
-- host: my.flower
-    http:
-      paths:
-      - path: /
-        pathType: Prefix      
-        backend:
-          service:
-            name: airflow-flower
-            port:
-              number: 80
+  - host: my.flower
+      http:
+        paths:
+        - path: /
+          pathType: Prefix      
+          backend:
+            service:
+              name: airflow-flower
+              port:
+                number: 80
 
 ---
 apiVersion: networking.k8s.io/v1
