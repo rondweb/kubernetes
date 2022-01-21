@@ -15,12 +15,12 @@ metadata:
   name: minimal-ingres-airflow
   namespace: airflow
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
   - http:
       paths:
-      - path: /?(.*)
+      - path: /air-flower(/|$)(.*)
         pathType: Prefix
         backend:
           service:
@@ -28,7 +28,7 @@ spec:
             port:
               number: 80                           
 
-      - path: /?(.*)
+      - path: /air-web(/|$)(.*)
         pathType: Prefix
         backend:
           service:
